@@ -36,11 +36,12 @@ private fun MyApp(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun MyScreenContent() {
+fun MyScreenContent(names: List<String> = listOf("Android", "there")) {
     Column {
-        Greeting(name = "Android")
-        Divider(color = Color.Black)
-        Greeting(name = "there")
+        for (name in names) {
+            Greeting(name = name)
+            Divider(color = Color.Black)
+        }
     }
 }
 
