@@ -3,7 +3,9 @@ package com.codelab.basics
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                Greeting(name = "Android")
+                MyScreenContent()
             }
         }
     }
@@ -34,14 +36,23 @@ private fun MyApp(content: @Composable () -> Unit) {
 }
 
 @Composable
+fun MyScreenContent() {
+    Column {
+        Greeting(name = "Android")
+        Divider(color = Color.Black)
+        Greeting(name = "there")
+    }
+}
+
+@Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!", modifier = Modifier.padding(24.dp))
 }
 
-@Preview(showBackground = true)
+@Preview("MyScreen preview")
 @Composable
 fun DefaultPreview() {
     MyApp {
-        Greeting(name = "Android")
+        MyScreenContent()
     }
 }
