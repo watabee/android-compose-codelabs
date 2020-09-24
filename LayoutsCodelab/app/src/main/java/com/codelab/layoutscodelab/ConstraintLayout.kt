@@ -2,10 +2,14 @@ package com.codelab.layoutscodelab
 
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.ConstraintLayout
+import androidx.compose.foundation.layout.ConstraintSet
 import androidx.compose.foundation.layout.Dimension
 import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.WithConstraints
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import com.codelab.layoutscodelab.ui.LayoutsCodelabTheme
@@ -60,6 +64,42 @@ fun LargeConstraintLayout() {
     }
 }
 
+@Composable
+fun DecoupledConstraintLayout() {
+    WithConstraints {
+        val constraints = if (minWidth < 600.dp) {
+            decoupledConstraints(margin = 16.dp) // Portrait constraints
+        } else {
+            decoupledConstraints(margin = 32.dp) // Landscape constraints
+        }
+
+        ConstraintLayout(constraints) {
+            Button(
+                onClick = {},
+                modifier = Modifier.layoutId("button")
+            ) {
+                Text(text = "Button")
+            }
+
+            Text(text = "Text", modifier = Modifier.layoutId("text"))
+        }
+    }
+}
+
+private fun decoupledConstraints(margin: Dp): ConstraintSet {
+    return ConstraintSet {
+        val button = createRefFor("button")
+        val text = createRefFor("text")
+
+        constrain(button) {
+            top.linkTo(parent.top, margin = margin)
+        }
+        constrain(text) {
+            top.linkTo(button.bottom, margin = margin)
+        }
+    }
+}
+
 @Preview
 @Composable
 fun ConstraintLayoutContentPreview() {
@@ -73,5 +113,13 @@ fun ConstraintLayoutContentPreview() {
 fun LargeConstraintLayoutPreview() {
     LayoutsCodelabTheme {
         LargeConstraintLayout()
+    }
+}
+
+@Preview
+@Composable
+fun DecoupledConstraintLayoutPreview() {
+    LayoutsCodelabTheme {
+        DecoupledConstraintLayout()
     }
 }
