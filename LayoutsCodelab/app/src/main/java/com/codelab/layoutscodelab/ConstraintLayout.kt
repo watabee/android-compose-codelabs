@@ -2,6 +2,7 @@ package com.codelab.layoutscodelab
 
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.ConstraintLayout
+import androidx.compose.foundation.layout.Dimension
 import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,10 +45,33 @@ fun ConstraintLayoutContent() {
     }
 }
 
+@Composable
+fun LargeConstraintLayout() {
+    ConstraintLayout {
+        val text = createRef()
+        val guideline = createGuidelineFromStart(fraction = 0.5f)
+        Text(
+            text = "This is a very very very very very very very long text",
+            modifier = Modifier.constrainAs(text) {
+                linkTo(start = guideline, end = parent.end)
+                width = Dimension.preferredWrapContent
+            }
+        )
+    }
+}
+
 @Preview
 @Composable
 fun ConstraintLayoutContentPreview() {
     LayoutsCodelabTheme {
         ConstraintLayoutContent()
+    }
+}
+
+@Preview
+@Composable
+fun LargeConstraintLayoutPreview() {
+    LayoutsCodelabTheme {
+        LargeConstraintLayout()
     }
 }
