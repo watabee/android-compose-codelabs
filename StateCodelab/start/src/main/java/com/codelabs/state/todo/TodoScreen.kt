@@ -16,16 +16,12 @@
 
 package com.codelabs.state.todo
 
+import android.util.Log
 import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.contentColor
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
@@ -80,25 +76,36 @@ fun TodoScreen(
 @Composable
 fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
+    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default) }
+    val iconsVisible = text.isNotBlank()
+    val submit = {
+        Log.e("TodoItemInput", "submit # text = $text")
+        onItemComplete(TodoItem(text, icon))
+        setIcon(TodoIcon.Default)
+        setText("")
+    }
     Column {
         Row(
             Modifier.padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
         ) {
-            TodoInputTextField(
+            TodoInputText(
                 text = text,
                 onTextChange = setText,
-                modifier = Modifier.weight(1f).padding(end = 8.dp)
+                modifier = Modifier.weight(1f).padding(end = 8.dp),
+                onImeAction = submit
             )
             TodoEditButton(
-                onClick = {
-                    onItemComplete(TodoItem(text))
-                    setText("")
-                },
+                onClick = submit,
                 text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically),
                 enabled = text.isNotBlank()
             )
+        }
+        if (iconsVisible) {
+            AnimatedIconRow(icon = icon, onIconChange = setIcon, Modifier.padding(top = 8.dp))
+        } else {
+            Spacer(modifier = Modifier.preferredHeight(16.dp))
         }
     }
 }

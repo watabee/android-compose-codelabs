@@ -183,11 +183,6 @@ fun TodoItemInputBackground(
     }
 }
 
-@Composable
-fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: Modifier) {
-    TodoInputText(text = text, onTextChange = onTextChange, modifier = modifier)
-}
-
 /**
  * Styled [TextField] for inputting a [TodoItem]
  *
