@@ -41,7 +41,7 @@ import com.codelab.theming.ui.start.theme.JetnewsTheme
 fun Home() {
     val featured = remember { PostRepo.getFeaturedPost() }
     val posts = remember { PostRepo.getPosts() }
-    JetnewsTheme(darkTheme = true) {
+    JetnewsTheme {
         Scaffold(
             topBar = { AppBar() }
         ) { innerPadding ->
